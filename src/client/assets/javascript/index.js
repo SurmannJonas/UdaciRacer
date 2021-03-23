@@ -17,12 +17,14 @@ async function onPageLoad() {
 	try {
 		getTracks()
 			.then(tracks => {
+				console.log(tracks)
 				const html = renderTrackCards(tracks)
 				renderAt('#tracks', html)
 			})
 
 		getRacers()
 			.then((racers) => {
+				console.log(racers)
 				const html = renderRacerCars(racers)
 				renderAt('#racers', html)
 			})
@@ -82,6 +84,7 @@ async function handleCreateRace() {
 	const track_id = store.track_id
 	//  TODO - invoke the API call to create the race, then save the result
 	const race =	await createRace(player_id, track_id)
+	console.log(race)
 	// TODO - update the store with the race id
 
 	// The race has been created, now start the countdown
@@ -322,10 +325,16 @@ function defaultFetchOpts() {
 
 function getTracks() {
 	// GET request to `${SERVER}/api/tracks`
+	return fetch(`${SERVER}/api/tracks`)
+		.then(res => res.json())
+		.catch(err => console.log("Problem with getTracks request::", err))
 }
 
 function getRacers() {
 	// GET request to `${SERVER}/api/cars`
+	return fetch(`${SERVER}/api/cars`)
+		.then(res => res.json())
+		.catch(err => console.log("Problem with getRacers request::", err))
 }
 
 function createRace(player_id, track_id) {
