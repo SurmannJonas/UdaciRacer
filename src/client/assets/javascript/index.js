@@ -93,7 +93,7 @@ async function handleCreateRace() {
 	// TODO - call the async function runCountdown
 	await runCountdown()
 	// TODO - call the async function startRace
-	await startRace(store.race_id)
+	//await startRace(store.race_id)
 	// TODO - call the async function runRace
 	await runRace(store.race_id)
 }
@@ -127,12 +127,15 @@ async function runCountdown() {
 
 		return new Promise(resolve => {
 			// TODO - use Javascript's built in setInterval method to count down once per second
-
+			const countdown = () => {
+				return document.getElementById('big-numbers').innerHTML = --timer
+			}
+			setInterval(countdown, 1000)
 			// run this DOM manipulation to decrement the countdown for the user
-			document.getElementById('big-numbers').innerHTML = --timer
 
+			console.log(timer)
 			// TODO - if the countdown is done, clear the interval, resolve the promise, and return
-
+			if(timer === 0) clearInterval()
 		})
 	} catch(error) {
 		console.log(error);
@@ -152,8 +155,8 @@ function handleSelectPodRacer(target) {
 	target.classList.add('selected')
 
 	// TODO - save the selected racer to the store
-	let racer = changeRacerName(parseInt(target.id))
-	store.player_id = racer
+	//let racer = changeRacerName(parseInt(target.id))
+	store.player_id = parseInt(target.id)
 }
 
 function handleSelectTrack(target) {
@@ -169,8 +172,8 @@ function handleSelectTrack(target) {
 	target.classList.add('selected')
 
 	// TODO - save the selected track id to the store
-	let track = changeTrackName(parseInt(target.id))
-	store.track_id = track
+	//let track = changeTrackName(parseInt(target.id))
+	store.track_id = parseInt(target.id)
 }
 
 function handleAccelerate() {
@@ -396,7 +399,10 @@ function createRace(player_id, track_id) {
 		dataType: 'jsonp',
 		body: JSON.stringify(body)
 	})
-	.then(res => res.json())
+	.then(res => {
+			const raceData = res.json()
+		 	return raceData
+	}).then(raceData => raceData.ID)
 	.catch(err => console.log("Problem with createRace request::", err))
 }
 
