@@ -186,7 +186,7 @@ function renderRacerCars(racers) {
 
 	return `
 		<ul id="racers">
-			${reuslts}
+			${results}
 		</ul>
 	`
 }
@@ -196,12 +196,31 @@ function renderRacerCard(racer) {
 
 	return `
 		<li class="card podracer" id="${id}">
-			<h3>${driver_name}</h3>
+			<h3>${changeRacerName(driver_name)}</h3>
 			<p>${top_speed}</p>
 			<p>${acceleration}</p>
 			<p>${handling}</p>
 		</li>
 	`
+}
+
+function changeRacerName(racerData) {
+	let racer = racerData
+	
+	if(racerData === 'Racer 1') {
+		racer = 'Hamilton'
+	} else if (racerData === 'Racer 2') {
+		racer = 'Vettel'
+	} else if (racerData === 'Racer 3') {
+		racer = 'Alonso'
+	} else if (racerData === 'Racer 4') {
+		racer = 'Verstappen'
+	} else if (racerData === 'Racer 5') {
+		racer = 'Bottas'
+	} else {
+		racer = 'Test Driver!'
+	}
+	return racer
 }
 
 function renderTrackCards(tracks) {
@@ -222,12 +241,32 @@ function renderTrackCards(tracks) {
 
 function renderTrackCard(track) {
 	const { id, name } = track
-
 	return `
 		<li id="${id}" class="card track">
-			<h3>${name}</h3>
+			<h3>${changeTrackName(name)}</h3>
 		</li>
 	`
+}
+
+function changeTrackName(trackData) {
+	let track = trackData
+
+	if(trackData === 'Track 1') {
+		track = 'Monza'
+	} else if (trackData === 'Track 2') {
+		track = 'Hockenheim'
+	} else if (trackData === 'Track 3') {
+		track = 'Abu Dhabi'
+	} else if (trackData === 'Track 4') {
+		track = 'Barcelona'
+	} else if (trackData === 'Track 5') {
+		track = 'Spa'
+	} else if (trackData === 'Track 6') {
+		track = 'Monaco'
+	} else {
+		track = 'No Race!'
+	}
+	return track
 }
 
 function renderCountdown(count) {
