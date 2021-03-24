@@ -17,14 +17,12 @@ async function onPageLoad() {
 	try {
 		getTracks()
 			.then(tracks => {
-				console.log(tracks)
 				const html = renderTrackCards(tracks)
 				renderAt('#tracks', html)
 			})
 
 		getRacers()
 			.then((racers) => {
-				console.log(racers)
 				const html = renderRacerCars(racers)
 				renderAt('#racers', html)
 			})
@@ -76,23 +74,28 @@ async function delay(ms) {
 
 // This async function controls the flow of the race, add the logic and error handling
 async function handleCreateRace() {
-	// render starting UI
-	renderAt('#race', renderRaceStartView())
-
 	// TODO - Get player_id and track_id from the store
 	const player_id = store.player_id
 	const track_id = store.track_id
+
 	//  TODO - invoke the API call to create the race, then save the result
-	const race =	await createRace(player_id, track_id)
-	console.log(race)
-	// TODO - update the store with the race id
+	try{
+		const race =	await createRace(player_id, track_id)
+		// TODO - update the store with the race id
+		store.race_id = race
+		// render starting UI
+		renderAt('#race', renderRaceStartView(track_id, player_id))
+	} catch(error) {
+			console.log(error)
+	}
 
 	// The race has been created, now start the countdown
 	// TODO - call the async function runCountdown
-
+	await runCountdown()
 	// TODO - call the async function startRace
-
+	await startRace(store.race_id)
 	// TODO - call the async function runRace
+	await runRace(store.race_id)
 }
 
 function runRace(raceID) {
@@ -149,6 +152,8 @@ function handleSelectPodRacer(target) {
 	target.classList.add('selected')
 
 	// TODO - save the selected racer to the store
+	let racer = changeRacerName(parseInt(target.id))
+	store.player_id = racer
 }
 
 function handleSelectTrack(target) {
@@ -164,7 +169,8 @@ function handleSelectTrack(target) {
 	target.classList.add('selected')
 
 	// TODO - save the selected track id to the store
-
+	let track = changeTrackName(parseInt(target.id))
+	store.track_id = track
 }
 
 function handleAccelerate() {
@@ -204,18 +210,19 @@ function renderRacerCard(racer) {
 	`
 }
 
+//Changing names of the racers
 function changeRacerName(racerData) {
 	let racer = racerData
-	
-	if(racerData === 'Racer 1') {
+
+	if(racerData === 'Racer 1' || racerData === 1) {
 		racer = 'Hamilton'
-	} else if (racerData === 'Racer 2') {
+	} else if (racerData === 'Racer 2' || racerData === 2) {
 		racer = 'Vettel'
-	} else if (racerData === 'Racer 3') {
+	} else if (racerData === 'Racer 3' || racerData === 3) {
 		racer = 'Alonso'
-	} else if (racerData === 'Racer 4') {
+	} else if (racerData === 'Racer 4' || racerData === 4) {
 		racer = 'Verstappen'
-	} else if (racerData === 'Racer 5') {
+	} else if (racerData === 'Racer 5'|| racerData === 5) {
 		racer = 'Bottas'
 	} else {
 		racer = 'Test Driver!'
@@ -241,6 +248,7 @@ function renderTrackCards(tracks) {
 
 function renderTrackCard(track) {
 	const { id, name } = track
+
 	return `
 		<li id="${id}" class="card track">
 			<h3>${changeTrackName(name)}</h3>
@@ -248,20 +256,21 @@ function renderTrackCard(track) {
 	`
 }
 
+//Changing names of the track
 function changeTrackName(trackData) {
 	let track = trackData
 
-	if(trackData === 'Track 1') {
+	if(trackData === 'Track 1' || trackData === 1) {
 		track = 'Monza'
-	} else if (trackData === 'Track 2') {
+	} else if (trackData === 'Track 2' || trackData === 2) {
 		track = 'Hockenheim'
-	} else if (trackData === 'Track 3') {
+	} else if (trackData === 'Track 3' || trackData === 3) {
 		track = 'Abu Dhabi'
-	} else if (trackData === 'Track 4') {
+	} else if (trackData === 'Track 4' || trackData === 4) {
 		track = 'Barcelona'
-	} else if (trackData === 'Track 5') {
+	} else if (trackData === 'Track 5' || trackData === 5) {
 		track = 'Spa'
-	} else if (trackData === 'Track 6') {
+	} else if (trackData === 'Track 6' || trackData === 6) {
 		track = 'Monaco'
 	} else {
 		track = 'No Race!'
@@ -279,7 +288,7 @@ function renderCountdown(count) {
 function renderRaceStartView(track, racers) {
 	return `
 		<header>
-			<h1>Race: ${track.name}</h1>
+			<h1>Race: ${track}</h1>
 		</header>
 		<main id="two-columns">
 			<section id="leaderBoard">
@@ -393,6 +402,9 @@ function createRace(player_id, track_id) {
 
 function getRace(id) {
 	// GET request to `${SERVER}/api/races/${id}`
+	return fetch(`${SERVER}/api/races/${id}`)
+		.then(res => res.json())
+		.catch(err => console.log("Problem with getRacers request::", err))
 }
 
 function startRace(id) {
