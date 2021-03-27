@@ -15,13 +15,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 async function onPageLoad() {
 	try {
-		getTracks()
+		await getTracks()
 			.then(tracks => {
 				const html = renderTrackCards(tracks)
 				renderAt('#tracks', html)
 			})
 
-		getRacers()
+		await getRacers()
 			.then((racers) => {
 				const html = renderRacerCars(racers)
 				renderAt('#racers', html)
