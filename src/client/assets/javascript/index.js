@@ -40,7 +40,6 @@ function setupClickHandlers() {
 		if (target.matches('.card.track')) {
 			handleSelectTrack(target)
 		}
-
 		// Podracer form field
 		if (target.matches('.card.podracer')) {
 			handleSelectPodRacer(target)
@@ -49,9 +48,15 @@ function setupClickHandlers() {
 		// Submit create race form
 		if (target.matches('#submit-create-race')) {
 			event.preventDefault()
+			const selectedTracks = document.querySelector('#tracks .selected')
+			const selectedRacer = document.querySelector('#racers .selected')
 
-			// start race
-			handleCreateRace()
+			if (selectedTracks && selectedRacer)	{
+				// start race
+				handleCreateRace()
+			} else {
+				alert('Choose your track and your racer')
+			}
 		}
 
 		// Handle acceleration click
@@ -61,6 +66,9 @@ function setupClickHandlers() {
 
 	}, false)
 }
+
+const trackSet = () => {return true}
+const racerSet = () => {return true}
 
 async function delay(ms) {
 	try {
@@ -123,27 +131,6 @@ function runRace(raceID) {
 				}
 			}).catch(error => console.log('Error in setInterval',error))
 		}, 500)
-
-		/*
-		const setIvl = setInterval(async () => {
-			try {
-				let resData = await getRace(store.race_id)
-				console.log(resData)
-
-				if (resData.status === 'in-progress'){
-						renderAt('#leaderBoard', raceProgress(resData.positions))
-				} else if (resData.status === 'finished'){
-					clearInterval(setIvl)
-					renderAt('#race', resultsView(resData.positions))
-					resolve(resData)
-				} else {
-					throw new Error('Error during race');
-				}
-			} catch(error) {
-				console.log('Error in setInterval',error)
-			}
-		}, 500)
-		*/
 
 		/*
 			TODO - if the race info status property is "in-progress", update the leaderboard by calling:
