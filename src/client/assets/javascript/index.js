@@ -313,15 +313,15 @@ function changeTrackName(trackData) {
 
 	if(trackData === 'Track 1' || trackData === 1) {
 		track = 'Monza'
-	} else if (trackData === 'Track 2') {
+	} else if (trackData === 'Track 2' || trackData === 2) {
 		track = 'Hockenheim'
-	} else if (trackData === 'Track 3') {
+	} else if (trackData === 'Track 3' || trackData === 3) {
 		track = 'Abu Dhabi'
-	} else if (trackData === 'Track 4') {
+	} else if (trackData === 'Track 4' || trackData === 4) {
 		track = 'Barcelona'
-	} else if (trackData === 'Track 5') {
+	} else if (trackData === 'Track 5' || trackData === 5) {
 		track = 'Spa'
-	} else if (trackData === 'Track 6') {
+	} else if (trackData === 'Track 6' || trackData === 6) {
 		track = 'Monaco'
 	} else {
 		track = 'No Race!'
@@ -339,7 +339,7 @@ function renderCountdown(count) {
 function renderRaceStartView(track, racers) {
 	return `
 		<header>
-			<h1>Race: ${track}</h1>
+			<h1>Race: ${changeTrackName(track)}</h1>
 		</header>
 		<main id="two-columns">
 			<section id="leaderBoard">
