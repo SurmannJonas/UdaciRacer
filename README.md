@@ -1,3 +1,15 @@
+# Udacity learning project about asynchronous programming with JavaScript
+
+## Goal of the Udacity learning project
+This project is about learning asynchronous code and is not meant for production. The goal of the project has been to get familiar with concepts of asynchronous programming like asynchronous callbacks, promises and chaining of promises, error handling for each promise, async/await syntax and API calls/requests. Therefore, a game (see below Project Instruction) has been programmed that interacts with an API server.
+
+## Tech stack
+Asynchronous programming, synchronous concepts, asynchronous callbacks, sequencing events via promises, promise chaining by means of '.then' syntax, sequencing events via async/await and try/catch syntax, '.catch' error handling, API calls, Git/GitHub
+
+# Udacity project instructions below:
+
+
+
 # Welcome to the One and only UdaciRacer Simulation Game
 
 ## Project Introduction
@@ -42,7 +54,7 @@ Note that this process will use your terminal tab, so you will have to open a ne
 
 #### WINDOWS USERS -- Setting Environment Variables
 If you are using a windows machine:
-1. `cd` into the root of the project containing data.json 
+1. `cd` into the root of the project containing data.json
 2. Run the following command to add the environment variable:
 ```set DATA_FILE=./data.json```
 
